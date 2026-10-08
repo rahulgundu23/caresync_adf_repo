@@ -1,0 +1,25 @@
+{
+	"name": "PostgreSql1",
+	"properties": {
+		"description": "postgresql://neondb_owner:npg_2VrItsfynoc6@ep-icy-block-b4xohhs9-pooler.c-6.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require\n",
+		"annotations": [],
+		"type": "PostgreSqlV2",
+		"typeProperties": {
+			"server": "ep-icy-block-b4xohhs9-pooler.c-6.us-east-2.aws.neon.tech",
+			"port": 5432,
+			"database": "neondb",
+			"username": "neondb_owner",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KV_AzureKeyVault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "postgres-secret",
+				"secretVersion": "6835e0fa848f4f4294e1c9b05a3c2fec"
+			},
+			"sslMode": 2,
+			"authenticationType": "Basic"
+		}
+	}
+}
