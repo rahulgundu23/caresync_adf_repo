@@ -1,0 +1,19 @@
+{
+	"name": "careSyncAzureDatabricks1",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricks",
+		"typeProperties": {
+			"domain": "https://adb-7405617074031716.16.azuredatabricks.net",
+			"accessToken": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KV_AzureKeyVault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "caresync-databricks-api-key"
+			},
+			"existingClusterId": "1009-111401-qr6sdvic"
+		}
+	}
+}
