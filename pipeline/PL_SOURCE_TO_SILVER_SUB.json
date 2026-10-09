@@ -113,7 +113,7 @@
 						"parameters": {
 							"container_name": "landing",
 							"directory_name": {
-								"value": "@concat(\n    activity('Get table details').output.firstRow.source_system,\n    '/',\n    activity('Get table details').output.firstRow.table_name,\n    '/',\n    variables('start_time')\n)",
+								"value": "@concat(\n    activity('Get table details').output.firstRow.source_system,\n    '/',\n    activity('Get table details').output.firstRow.source_table_name,\n    '/',\n    variables('start_time')\n)",
 								"type": "Expression"
 							}
 						}
