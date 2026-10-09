@@ -197,11 +197,50 @@
 					"referenceName": "careSyncAzureDatabricks1",
 					"type": "LinkedServiceReference"
 				}
+			},
+			{
+				"name": "Update success",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Landing to silver",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "UPDATE INTO ctrl.audit_log SET\n    status = 'SUCCESS'\n    end_time = SYSUTCDATETIME(\n    records_written = @{activity('Landing to silver').output.runOutput}\n    WHERE\n    adf_run_id = pipeline().parameters.adf_run_id\n    AND\n    table_id = pipeline().parameters.table_id",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"parameters": {
 			"table_id": {
 				"type": "int"
+			},
+			"adf_run_id": {
+				"type": "string"
 			}
 		},
 		"variables": {
