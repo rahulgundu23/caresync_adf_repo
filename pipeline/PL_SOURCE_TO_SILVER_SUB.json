@@ -54,7 +54,7 @@
 					{
 						"activity": "If Condition1",
 						"dependencyConditions": [
-							"Skipped"
+							"Succeeded"
 						]
 					}
 				],
@@ -268,7 +268,7 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "SELECT  watermark_column from ctrl.table_config where table_id = @{pipeline().parameters.table_id}",
+										"value": "select watermark_value from ctrl.watermark where table_id = @{pipeline().parameters.table_id}\n\n\n\n",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
