@@ -205,7 +205,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Landing to silver",
+						"activity": "Update Watermark",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -310,6 +310,56 @@
 									"value": "@activity('Read watermark column').output.firstRow.watermark_column",
 									"type": "Expression"
 								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Update Watermark",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Landing to silver",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@not(\nequals(\n    activity('Get table details').output.firstRow.load_type,\n    'FULL'\n    )\n)",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Update Watermark Value For Table",
+							"type": "Script",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "AzureSqlDatabase1",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "UPDATE ctrl.watermark\nSET\n    watermark_value = SYSUTCDATETIME()\nWHERE\n    table_id = @{pipeline().parameters.table_id};",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
 							}
 						}
 					]
